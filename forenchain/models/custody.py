@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -23,7 +23,7 @@ class CustodyTransfer(BaseModel):
     transferred_at: datetime
     reason: str = Field(min_length=3, max_length=500)
     transfer_hash: str = Field(min_length=64, max_length=64)  # SHA-256 of transfer data
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     model_config = {"frozen": True}  # append-only enforced at model level
 

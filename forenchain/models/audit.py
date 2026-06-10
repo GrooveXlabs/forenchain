@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -32,7 +32,7 @@ class AuditLog(BaseModel):
     id: uuid.UUID = Field(default_factory=uuid.uuid4)
     action: AuditAction
     performed_by: str  # badge ID or system identifier
-    performed_at: datetime = Field(default_factory=datetime.utcnow)
+    performed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     ip_address: str
     entity_type: str  # e.g. "evidence", "custody_transfer"
     entity_id: Optional[uuid.UUID] = None

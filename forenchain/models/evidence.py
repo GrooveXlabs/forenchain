@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Optional
 
@@ -45,7 +45,7 @@ class Evidence(BaseModel):
     hash_sha256: str = Field(min_length=64, max_length=64)
     hmac_signature: str = Field(min_length=1)
     qr_code_data: Optional[str] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
     model_config = {"frozen": True}  # immutable after creation
 
