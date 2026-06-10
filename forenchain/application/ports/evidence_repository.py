@@ -11,8 +11,8 @@ class EvidenceRepository(ABC):
     """Port interface for evidence persistence. Infrastructure implements this."""
 
     @abstractmethod
-    async def create(self, evidence: Evidence) -> Evidence:
-        """Persist a new evidence record. Raises if duplicate id."""
+    async def create(self, evidence: Evidence, agency: str, created_by: str) -> Evidence:
+        """Persist a new evidence record. agency is set for Row-Level Security."""
 
     @abstractmethod
     async def get_by_id(self, evidence_id: uuid.UUID) -> Optional[Evidence]:

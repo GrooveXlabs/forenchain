@@ -13,13 +13,19 @@ from forenchain.application.use_cases.evidence.get_evidence import (
 )
 from forenchain.domain.models.evidence import EvidenceCreateRequest
 from forenchain.domain.models.user import UserRole
+from forenchain.infrastructure.api.dependencies import (
+    get_create_evidence_use_case,
+    get_get_evidence_use_case,
+)
 from forenchain.infrastructure.auth.dependencies import TokenData, require_role
 
 router = APIRouter(prefix="/evidence", tags=["evidence"])
 
 _WRITE_ROLES = (UserRole.INVESTIGATOR, UserRole.ADMIN)
-_READ_ROLES = (UserRole.INVESTIGATOR, UserRole.FSL_OFFICER, UserRole.FSL_DIRECTOR,
-               UserRole.COURT, UserRole.PROSECUTOR, UserRole.SHO, UserRole.ADMIN, UserRole.SSOC)
+_READ_ROLES = (
+    UserRole.INVESTIGATOR, UserRole.FSL_OFFICER, UserRole.FSL_DIRECTOR,
+    UserRole.COURT, UserRole.PROSECUTOR, UserRole.SHO, UserRole.ADMIN, UserRole.SSOC,
+)
 
 
 @router.post("", status_code=status.HTTP_201_CREATED)
@@ -27,12 +33,13 @@ async def create_evidence(
     body: EvidenceCreateRequest,
     request: Request,
     current_user: Annotated[TokenData, Depends(require_role(*_WRITE_ROLES))],
-    use_case: Annotated[CreateEvidenceUseCase, Depends()],
+    use_case: Annotated[CreateEvidenceUseCase, Depends(get_create_evidence_use_case)],
 ):
     request_id = uuid.UUID(request.state.request_id)
     evidence = await use_case.execute(
         request=body,
         created_by=current_user.badge_id,
+        agency=current_user.agency,
         ip_address=request.client.host if request.client else "unknown",
         request_id=request_id,
     )
@@ -44,7 +51,7 @@ async def get_evidence(
     evidence_id: uuid.UUID,
     request: Request,
     current_user: Annotated[TokenData, Depends(require_role(*_READ_ROLES))],
-    use_case: Annotated[GetEvidenceUseCase, Depends()],
+    use_case: Annotated[GetEvidenceUseCase, Depends(get_get_evidence_use_case)],
 ):
     request_id = uuid.UUID(request.state.request_id)
     try:

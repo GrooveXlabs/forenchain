@@ -16,7 +16,7 @@ from sqlalchemy import (
     Boolean, CheckConstraint, Column, DateTime, ForeignKey,
     Index, Integer, String, Text, UniqueConstraint,
 )
-from sqlalchemy.dialects.postgresql import INET, JSONB, UUID
+from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, relationship
 from sqlalchemy.sql import func
 
@@ -148,7 +148,7 @@ class AuditLogTable(Base):
     action = Column(String(50), nullable=False, index=True)
     performed_by = Column(String(30), nullable=False, index=True)
     performed_at = Column(DateTime(timezone=True), nullable=False, server_default=func.now(), index=True)
-    ip_address = Column(INET, nullable=False)
+    ip_address = Column(String(45), nullable=False)   # VARCHAR — supports IPv4 + IPv6
     entity_type = Column(String(50), nullable=False)
     entity_id = Column(UUID(as_uuid=True), nullable=True, index=True)
     outcome = Column(String(10), nullable=False)

@@ -15,7 +15,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from typing import Any, Callable
 
-from forenchain.domain.models.audit import AuditAction, AuditLog
+from forenchain.domain.models.audit import AuditAction, AuditLog, AuditOutcome
 from forenchain.application.ports.audit_repository import AuditRepository
 
 
@@ -25,7 +25,7 @@ async def write_audit(
     performed_by: str,
     ip_address: str,
     entity_type: str,
-    outcome: str,
+    outcome: AuditOutcome,
     entity_id: uuid.UUID | None = None,
     details: dict[str, Any] | None = None,
     request_id: uuid.UUID | None = None,

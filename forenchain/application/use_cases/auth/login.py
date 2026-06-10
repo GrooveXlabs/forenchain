@@ -25,7 +25,7 @@ from typing import Protocol
 from forenchain.application.ports.audit_repository import AuditRepository
 from forenchain.application.ports.user_repository import UserRepository
 from forenchain.application.services.audit_service import write_audit
-from forenchain.domain.models.audit import AuditAction
+from forenchain.domain.models.audit import AuditAction, AuditOutcome
 from forenchain.domain.models.user import User
 
 
@@ -88,7 +88,7 @@ class LoginUseCase:
                 performed_by=badge_id,
                 ip_address=ip_address,
                 entity_type="user",
-                outcome="failure",
+                outcome=AuditOutcome.FAILURE,
                 details={"reason": reason, **(details or {})},
                 request_id=request_id,
             )
@@ -134,7 +134,7 @@ class LoginUseCase:
             performed_by=badge_id,
             ip_address=ip_address,
             entity_type="user",
-            outcome="success",
+            outcome=AuditOutcome.SUCCESS,
             details={"role": user.role.value, "agency": user.agency},
             request_id=request_id,
         )

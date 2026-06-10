@@ -15,7 +15,7 @@ from forenchain.application.ports.custody_repository import CustodyRepository
 from forenchain.application.ports.evidence_repository import EvidenceRepository
 from forenchain.application.services.audit_service import write_audit
 from forenchain.application.services.hash_service import compute_transfer_hash
-from forenchain.domain.models.audit import AuditAction
+from forenchain.domain.models.audit import AuditAction, AuditOutcome
 from forenchain.domain.models.custody import CustodyTransfer, CustodyTransferRequest
 
 
@@ -56,7 +56,7 @@ class TransferCustodyUseCase:
             performed_by=from_badge,
             ip_address=ip_address,
             entity_type="custody_transfer",
-            outcome="pending",
+            outcome=AuditOutcome.PENDING,
             entity_id=transfer_id,
             details={
                 "evidence_id": str(request.evidence_id),
@@ -95,7 +95,7 @@ class TransferCustodyUseCase:
                 performed_by=from_badge,
                 ip_address=ip_address,
                 entity_type="custody_transfer",
-                outcome="success",
+                outcome=AuditOutcome.SUCCESS,
                 entity_id=transfer_id,
                 request_id=request_id,
             )
@@ -109,7 +109,7 @@ class TransferCustodyUseCase:
                 performed_by=from_badge,
                 ip_address=ip_address,
                 entity_type="custody_transfer",
-                outcome="failure",
+                outcome=AuditOutcome.FAILURE,
                 entity_id=transfer_id,
                 details={"error": str(exc)},
                 request_id=request_id,

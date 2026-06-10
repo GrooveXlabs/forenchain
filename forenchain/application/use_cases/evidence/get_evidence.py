@@ -14,7 +14,7 @@ from forenchain.application.ports.audit_repository import AuditRepository
 from forenchain.application.ports.evidence_repository import EvidenceRepository
 from forenchain.application.services.audit_service import write_audit
 from forenchain.application.services.hash_service import verify_integrity
-from forenchain.domain.models.audit import AuditAction
+from forenchain.domain.models.audit import AuditAction, AuditOutcome
 from forenchain.domain.models.evidence import Evidence
 
 
@@ -67,7 +67,7 @@ class GetEvidenceUseCase:
                 performed_by=requested_by,
                 ip_address=ip_address,
                 entity_type="evidence",
-                outcome="failure",
+                outcome=AuditOutcome.FAILURE,
                 entity_id=evidence_id,
                 details={"reason": "INTEGRITY_VIOLATION", "stored_hash": evidence.hash_sha256},
                 request_id=request_id,
@@ -82,7 +82,7 @@ class GetEvidenceUseCase:
             performed_by=requested_by,
             ip_address=ip_address,
             entity_type="evidence",
-            outcome="success",
+            outcome=AuditOutcome.SUCCESS,
             entity_id=evidence_id,
             request_id=request_id,
         )
