@@ -1,0 +1,15 @@
+.env
+.env.local
+.env.production
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+htmlcov/
+.coverage
+dist/
+build/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
