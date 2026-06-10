@@ -11,7 +11,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from forenchain.models.custody import CustodyTransfer, CustodyTransferRequest
+from forenchain.domain.models.custody import CustodyTransfer, CustodyTransferRequest
 
 FIXED_TIME = datetime(2026, 1, 15, 10, 30, 0)
 EVIDENCE_ID = uuid.uuid4()

@@ -9,7 +9,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
-from forenchain.models.evidence import Evidence, EvidenceStatus, EvidenceType, EvidenceCreateRequest
+from forenchain.domain.models.evidence import Evidence, EvidenceStatus, EvidenceType, EvidenceCreateRequest
 
 VALID_HASH = "a" * 64
 FIXED_TIME = datetime(2026, 1, 15, 10, 30, 0)

@@ -11,7 +11,7 @@ import pytest
 from hypothesis import given, settings
 from hypothesis import strategies as st
 
-from forenchain.security.hashing import (
+from forenchain.domain.security.hashing import (
     hash_evidence_descriptor,
     verify_evidence_hash,
     hash_transfer,
